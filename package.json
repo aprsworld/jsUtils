@@ -1,0 +1,10 @@
+{ "name": "@aprsworld/jsUtils",
+  "version": "0.1.0",
+  "description": "JavaScript Utilities",
+  "keywords": ["APRSWorld", "APRS", "Utils", "jsUtils"],
+  "bugs": { "url": "https://github.com/aprsworld/jsUtils" },
+  "license": { "license": "UNLICENSED" },
+  "author": { "name": "David A. Russell", "url": "https://github.com/davarus" },
+  "main": "merge.js",
+  "repository": { "type": "git", "url": "https://github.com/aprsworld/jsUtils" },
+  "private": true }

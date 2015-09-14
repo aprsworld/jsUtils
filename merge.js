@@ -39,11 +39,16 @@
  *	claiming compliance with that or future standards (at this time
  *	ECMAScript 2015 [ECMA6/ECMA Harmony]).
  */
-var hooks = null;
+var object_merge_hooks = {
+	before: function(prop, dst, src) { return src; },
+	after: function(prop, dst, src) { return dst; }
+};
+
 function object_merge () {
 	"use strict";
 	var length = arguments.length;
 	var target = arguments[0];
+	var hooks = object_merge_hooks;
 	var last; // If this is defined, we return it instead of target
 
 	// Can't merge less than 2 objects
@@ -61,15 +66,6 @@ function object_merge () {
 	}
 
 	// XXX: BUG: How to properly handle Arrays and "Functions"?
-
-	// Handle "aspect" hooks for processing...
-	//var hooks = target.prototype.merge_hooks;
-	if (!hooks) {
-		hooks = {
-			before: function(prop, dst, src) { return src; },
-			after: function(prop, dst, src) { return dst; }
-		};
-	}
 
 	// Merge all the arguments...
 	for (var i = 1; i < length; i++) {
@@ -147,3 +143,7 @@ function object_merge () {
 	// Return the target object
 	return target;
 }
+
+exports = module.exports;
+exports.object_merge = object_merge;
+exports.object_merge_hooks = object_merge_hooks;
