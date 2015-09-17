@@ -171,6 +171,6 @@ function object_merge () {
 }
 
 exports = module.exports;
-exports.object_travers = object_traverse;
+exports.object_traverse = object_traverse;
 exports.object_merge = object_merge;
 exports.object_merge_hooks = object_merge_hooks;
