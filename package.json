@@ -5,6 +5,6 @@
   "bugs": { "url": "https://github.com/aprsworld/jsUtils" },
   "license": { "license": "UNLICENSED" },
   "author": { "name": "David A. Russell", "url": "https://github.com/davarus" },
-  "main": "merge.js",
+  "main": "Object.js",
   "repository": { "type": "git", "url": "https://github.com/aprsworld/jsUtils" },
   "private": true }

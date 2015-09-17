@@ -1,7 +1,54 @@
+/* Object.js
+ *
+ * CURRENTLY THE APIs ARE SUBJECT TO CHANGE.  DO NOT USE IN PRODUCTION CODE.
+ *
+ * A collection of utilities to make up for lacking functionality in the
+ * various standards and implementations.
+ *
+ * Notes:
+ *	Eventually these functions will be Object.prototype.Merge and similiar.
+ *
+ * Standards:
+ *	Should comply with ECMA3 and work with all JavaScript implementations
+ *	claiming compliance with that or future standards (at this time
+ *	ECMAScript 2015 [ECMA6/ECMA Harmony]).
+ */
+
+
+/*
+ * object_traverse(obj, handler)
+ *
+ * Traverses a structure of Objects and calls the handler for each sub-object.
+ *
+ * callback(obj):
+ *	Return false to stop traversal.
+ *
+ * Return Value:
+ *	Does not return a value.
+ */
+function object_traverse(obj, callback) {
+
+	// If the callback returns false, return.
+	if (!callback(obj)) {
+		return;
+	}
+
+	// Is this actually an object?
+	if (!obj || typeof obj !== 'object') {
+		return;
+	}
+
+	// Traverse properties
+	// XXX: Handle non-enumerable properties, etc
+	var p;
+	for (p in obj) {
+		object_traverse(obj[p], callback);
+	}
+}
+
+
 /*
  * object_merge(target, obj0, .... objn)
- *
- * CURRENTLY THE API IS SUBJECT TO CHANGE.
  *
  * Merges all objects or primatives into dst in order of appearance.  It will
  * intentionally ignore any properties that are explicitly set to undefined.
@@ -25,16 +72,7 @@
  *	XXX: The merging of target and obj0 through objn currently do not
  *		have any hooks.
  *
- * Notes:
- *	Eventually this function will be Object.prototype.Merge or similiar
- *	and will obtain hooks from the prototype of whatever is being merged
- *	or something more robust and "proper".
- *
- * Standards:
- *	Should comply with ECMA3 and work with all JavaScript implementations
- *	claiming compliance with that or future standards (at this time
- *	ECMAScript 2015 [ECMA6/ECMA Harmony]).
- */
+*/
 var object_merge_hooks = {
 	before: function(prop, dst, src) { return src; },
 	after: function(prop, dst, src) { return dst; }
@@ -133,5 +171,6 @@ function object_merge () {
 }
 
 exports = module.exports;
+exports.object_travers = object_traverse;
 exports.object_merge = object_merge;
 exports.object_merge_hooks = object_merge_hooks;
