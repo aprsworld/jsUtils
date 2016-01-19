@@ -13,47 +13,56 @@
  *	claiming compliance with that or future standards (at this time
  *	ECMAScript 2015 [ECMA6/ECMA Harmony]).
  */
+(function() {
 
 
 /*
- * object_traverse(obj, handler)
+ * object_traverse(callback, obj)
+ * Object.prototype.traverse(callback)
  *
  * Traverses a structure of Objects and calls the handler for each sub-object.
  *
  * callback(obj):
- *	Return false to stop traversal.
+ *	Return a value to stop traversal.
  *
  * Return Value:
- *	Does not return a value.
+ *	Returns the value returned by callback or undefined.
  */
-function object_traverse(obj, callback) {
+function object_traverse(callback, obj) {
 
 	// If the callback returns false, return.
-	if (callback(obj) == false) {
-		return;
-	}
-
-	// Is this actually an object?
-	if (!obj || typeof obj !== 'object') {
+	if (callback(obj) !== undefined) {
 		return;
 	}
 
 	// Traverse properties
-	// XXX: Handle non-enumerable properties, etc
+	// TODO: Handle non-enumerable properties, etc
 	var p;
 	for (p in obj) {
-		object_traverse(obj[p], callback);
+		if (typeof obj[p] === 'object') {
+			var ret = object_traverse(callback, obj[p]);
+			if (ret !== undefined) {
+				return ret;
+			}
+		}
 	}
+
+	// Explicitly return nothing
+	return undefined;
 }
 
 
 /*
- * object_merge(target, obj0, .... objn)
+ * object_merge(target, obj0, ..., objn)
+ * Object.prototype.merge(obj0, ..., objn)
  *
- * Merges all objects or primatives into dst in order of appearance.  It will
+ * Merges all objects or primatives into target in order of appearance.  It will
  * intentionally ignore any properties that are explicitly set to undefined.
- * It does a 'deep merge' and will leave as much of the dst object intact.
- * Attempts to handle self-referencing structures (XXX: Needs thought and work).
+ * It does a 'deep merge' and will leave as much of the target object intact as
+ * possible.
+ * 
+ * TODO:
+ *	Handle self-referencing structures (Needs thought and work).
  *
  * Return Value:
  *	Returns undefined if no arguments are passed in.
@@ -72,7 +81,7 @@ function object_traverse(obj, callback) {
  *	XXX: The merging of target and obj0 through objn currently do not
  *		have any hooks.
  *
-*/
+ */
 var object_merge_hooks = {
 	before: function(prop, dst, src) { return src; },
 	after: function(prop, dst, src) { return dst; }
@@ -170,7 +179,26 @@ function object_merge () {
 	return target;
 }
 
-exports = module.exports;
-exports.object_traverse = object_traverse;
-exports.object_merge = object_merge;
-exports.object_merge_hooks = object_merge_hooks;
+/*
+ * Exports
+ */
+if (module && typeof module === 'object') {
+	// implicit var exports = module.exports = {};
+	exports.object_traverse = object_traverse;
+	exports.object_merge = object_merge;
+	exports.object_merge_hooks = object_merge_hooks;
+}
+
+Object.prototype.traverse = function (callback) {
+	object_traverse(callback, this);
+};
+Object.prototype.merge = function () {
+	var args = [this];
+	for (var i = 0; i < arguments.length; i++) {
+		args[i+1] = arguments[i];
+	}
+	object_merge.apply(this, args);
+};
+
+})();
+/* EOF */
