@@ -57,16 +57,16 @@ function object_traverse(callback, obj) {
  * Object.prototype.merge(obj0, ..., objn)
  *
  * Merges all objects or primatives into target in order of appearance.  It will
- * intentionally ignore any properties that are explicitly set to undefined.
- * It does a 'deep merge' and will leave as much of the target object intact as
- * possible.
+ * intentionally ignore any properties that are set to undefined.  It does a
+ * 'deep' merge and will leave as much of the target object intact as possible.
  * 
  * TODO:
  *	Handle self-referencing structures (Needs thought and work).
+ *	Handle Array and Function Objects
  *
  * Return Value:
  *	Returns undefined if no arguments are passed in.
- *	If the last non undefined argument is a primative, it will return that.
+ *	If the last non-undefined argument is a primative, it will return that.
  *	If a primative is passed in anywhere else it will return a merged clone.
  *	Otherwise it returns target with all the remaining arguments merged in.
  *
@@ -78,8 +78,7 @@ function object_traverse(callback, obj) {
  *		which normally should be src, but can be something else.
  *	after(prop, clone, merge): Called after processing each property.
  *		The return value is what the property is actually assigned.
- *	XXX: The merging of target and obj0 through objn currently do not
- *		have any hooks.
+ *	NOTE: The base object calls the hook with prop set to null.
  *
  */
 var object_merge_hooks = {
@@ -108,7 +107,7 @@ function object_merge () {
 		target = {};
 	}
 
-	// XXX: BUG: How to properly handle Arrays and "Functions"?
+	// XXX: BUG: How to properly handle Arrays and Functions?
 
 	// Merge all the arguments...
 	for (var i = 1; i < length; i++) {
@@ -120,7 +119,7 @@ function object_merge () {
 		}
 
 		// Call hook before processing object
-		//extension = hooks.before(extension); // XXX: Seperate hook?
+		extension = hooks.before(null, target, extension);
 
 		// Handle extensions that are not objects
 		if (!extension || typeof extension !== 'object') {
@@ -141,7 +140,7 @@ function object_merge () {
 			}
 
 			// Properly handle self-referencing structures
-			// XXX: Figure this out...
+			// TODO: Figure this out...
 			if (src === target) {
 				target[prop] = target;
 				continue;
@@ -168,7 +167,7 @@ function object_merge () {
 		}
 
 		// Call hook after processing object
-		//last = hooks.after(extension); // XXX: Seperate hook?
+		last = hooks.after(null, last, extension);
 	}
 
 	// The last extension was not an object, so return that value
