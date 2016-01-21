@@ -1,7 +1,7 @@
 { "name": "@aprsworld/jsUtils",
   "version": "0.1.0",
   "description": "JavaScript Utilities",
-  "keywords": ["APRS World", "APRSWorld", "APRS", "Utils", "jsUtils"],
+  "keywords": ["JavaScript", "Utilities", "Helpers", "Utils", "jsUtils", "APRS World", "APRSWorld", "APRS"],
   "bugs": { "url": "https://github.com/aprsworld/jsUtils" },
   "license": { "license": "UNLICENSED" },
   "author": { "name": "David A. Russell", "url": "https://github.com/davarus" },
