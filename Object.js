@@ -189,14 +189,14 @@ if (module && typeof module === 'object') {
 }
 
 Object.prototype.traverse = function (callback) {
-	object_traverse(callback, this);
+	return object_traverse(callback, this);
 };
 Object.prototype.merge = function () {
 	var args = [this];
 	for (var i = 0; i < arguments.length; i++) {
 		args[i+1] = arguments[i];
 	}
-	object_merge.apply(this, args);
+	return object_merge.apply(this, args);
 };
 
 })();
