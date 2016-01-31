@@ -1,5 +1,5 @@
-{ "name": "@aprsworld/jsUtils",
-  "version": "0.1.0",
+{ "name": "@aprsworld/jsutils",
+  "version": "0.1.1",
   "description": "JavaScript Utilities",
   "keywords": ["JavaScript", "Utilities", "Helpers", "Utils", "jsUtils", "APRS World", "APRSWorld", "APRS"],
   "bugs": { "url": "https://github.com/aprsworld/jsUtils/issues" },
