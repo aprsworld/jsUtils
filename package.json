@@ -2,9 +2,9 @@
   "version": "0.1.0",
   "description": "JavaScript Utilities",
   "keywords": ["JavaScript", "Utilities", "Helpers", "Utils", "jsUtils", "APRS World", "APRSWorld", "APRS"],
-  "bugs": { "url": "https://github.com/aprsworld/jsUtils" },
+  "bugs": { "url": "https://github.com/aprsworld/jsUtils/issues" },
   "license": { "license": "UNLICENSED" },
   "author": { "name": "David A. Russell", "url": "https://github.com/davarus" },
   "main": "Object.js",
-  "repository": { "type": "git", "url": "https://github.com/aprsworld/jsUtils" },
+  "repository": { "type": "git", "url": "https://github.com/aprsworld/jsUtils.git" },
   "private": true }
