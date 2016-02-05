@@ -188,16 +188,22 @@ if (module && typeof module === 'object') {
 	exports.object_merge_hooks = object_merge_hooks;
 }
 
-Object.prototype.traverse = function (callback) {
-	return object_traverse(callback, this);
-};
-Object.prototype.merge = function () {
-	var args = [this];
-	for (var i = 0; i < arguments.length; i++) {
-		args[i+1] = arguments[i];
+Object.defineProperty(Object.prototype, 'traverse', {
+	enumerable: false,
+	value: function (callback) {
+		return object_traverse(callback, this);
 	}
-	return object_merge.apply(this, args);
-};
+});
+Object.defineProperty(Object.prototype, 'merge', {
+	enumerable: false,
+	value: function () {
+		var args = [this];
+		for (var i = 0; i < arguments.length; i++) {
+			args[i+1] = arguments[i];
+		}
+		return object_merge.apply(this, args);
+	}
+});
 
 })();
 /* EOF */
