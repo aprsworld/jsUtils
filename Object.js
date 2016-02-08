@@ -161,7 +161,7 @@ function object_merge () {
 			merge = hooks.after(prop, clone, merge);
 
 			// Update the property
-			if (merge !== undefined && (!dst || typeof dst !== 'object')) {
+			if (merge !== undefined/* && (!dst || typeof dst !== 'object') XXX */) {
 				target[prop] = merge;
 			}
 		}
