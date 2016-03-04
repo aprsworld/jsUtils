@@ -14,7 +14,7 @@
  *	ECMAScript 2015 [ECMA6/ECMA Harmony]).
  */
 (function() {
-
+"use strict";
 
 /*
  * object_traverse(callback, obj)
@@ -88,7 +88,6 @@ var object_merge_hooks = {
 };
 
 function object_merge () {
-	"use strict";
 	var length = arguments.length;
 	var target = arguments[0];
 	var hooks = object_merge_hooks;
