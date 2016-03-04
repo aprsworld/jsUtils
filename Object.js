@@ -31,8 +31,9 @@
 function object_traverse(callback, obj) {
 
 	// If the callback returns false, return.
-	if (callback(obj) !== undefined) {
-		return;
+	var cret = callback(obj);
+	if (cret !== undefined) {
+		return cret;
 	}
 
 	// Traverse properties
